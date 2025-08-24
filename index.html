@@ -5,7 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FOMO SOCIAL</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/shitcoinheiros/fomosocial/refs/heads/main/fomo%20social%20logo.png">
-<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FF69B4">
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
@@ -236,6 +241,16 @@ spamModal.style.display = 'none';
 <footer class="w-full mt-6 text-center text-gray-400 text-xs">
 
 </footer>
+
+
+    <script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(() => console.log("Service Worker registrado!"))
+    .catch((err) => console.error("Erro ao registrar o Service Worker:", err));
+}
+</script>
+
 
 </body>
 </html>
