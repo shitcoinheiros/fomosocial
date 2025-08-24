@@ -169,11 +169,10 @@ try { web3 = new Web3(window.ethereum); accounts = await window.ethereum.request
 }
 
 function openWalletDeepLink(wallet) {
-if((wallet==='trust' && isTrustWalletBrowser()) || (wallet==='metamask' && isMetaMaskMobileBrowser())) { connectWallet(); return; }
+if((wallet==='metamask' && isMetaMaskMobileBrowser())) { connectWallet(); return; }
 const redirectUrl = encodeURIComponent(window.location.href);
 let url = '';
 if(wallet==='metamask') url = `https://metamask.app.link/dapp/${window.location.host}?redirect=${redirectUrl}`;
-if(wallet==='trust') url = `https://link.trustwallet.com/open_url?coin_id=60&url=${redirectUrl}`;
 window.location.href = url;
 }
 
