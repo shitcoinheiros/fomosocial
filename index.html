@@ -7,132 +7,133 @@
 <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
 <style>
 body { background: #0d0f0f; color: #ADD8E6; font-family: 'Orbitron', sans-serif; }
 .neon { text-shadow: 0 0 5px #FF69B4, 0 0 10px #FF69B4, 0 0 20px #FF69B4; }
-#walletModal, #spamModal { display: none; }
+#walletModal, #spamModal { display: none; } /* ESTILO DA MODAL CORRIGIDO AQUI */
 
 .btn-neon {
-  background-color: #FF69B4 !important;
-  color: black !important;
-  box-shadow: 0 0 10px #FF69B4, 0 0 20px #FF69B4, 0 0 40px #FF69B4;
-  transition: all 0.3s ease-in-out;
+background-color: #FF69B4 !important;
+color: black !important;
+box-shadow: 0 0 10px #FF69B4, 0 0 20px #FF69B4, 0 0 40px #FF69B4;
+transition: all 0.3s ease-in-out;
 }
 .btn-dashboard {
-  background-color: #111;
-  border: 2px solid #ADD8E6;
-  color: #ADD8E6;
-  font-weight: bold;
-  padding: 15px 20px;
-  border-radius: 12px;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.2s ease-in-out;
+background-color: #111;
+border: 2px solid #ADD8E6;
+color: #ADD8E6;
+font-weight: bold;
+padding: 15px 20px;
+border-radius: 12px;
+cursor: pointer;
+text-align: center;
+transition: all 0.2s ease-in-out;
 }
 .btn-dashboard:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+opacity: 0.5;
+cursor: not-allowed;
 }
 .btn-dashboard:hover:enabled {
-  background-color: #ADD8E6;
-  color: black;
-  box-shadow: 0 0 10px #ADD8E6, 0 0 20px #ADD8E6;
+background-color: #ADD8E6;
+color: black;
+box-shadow: 0 0 10px #ADD8E6, 0 0 20px #ADD8E6;
 }
 
 /* Modal para tela de spam */
 #spamModal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 50;
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.85);
+display: none; /* AQUI ESTÁ O AJUSTE */
+justify-content: center;
+align-items: center;
+z-index: 50;
 }
 #spamModalContent {
-  background: #111;
-  width: 90%;
-  max-width: 4xl;
-  height: 80%;
-  border-radius: 1rem;
-  position: relative;
-  overflow: hidden;
+background: #111;
+width: 90%;
+max-width: 4xl;
+height: 80%;
+border-radius: 1rem;
+position: relative;
+overflow: hidden;
 }
 #spamModalClose {
-  position: absolute;
-  top: 1px;
-  right: 1px;
-  background: #FF2E2E;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 10;
+position: absolute;
+top: 1px;
+right: 1px;
+background: #FF2E2E;
+color: white;
+border: none;
+padding: 5px 10px;
+border-radius: 8px;
+cursor: pointer;
+z-index: 10;
 }
 #spamIframeContainer {
-  width: 100%;
-  height: 100%;
+width: 100%;
+height: 100%;
 }
 </style>
 </head>
 <body class="flex flex-col items-center min-h-screen p-6">
 
 <header class="w-full flex justify-between items-center py-4 px-6 border-b border-pink-500/30">
-  <h1 class="text-3xl font-bold neon">FOMO SOCIAL</h1>
-  <button id="connectBtn" class="bg-pink-500 hover:bg-pink-600 text-black font-bold py-2 px-4 rounded-lg shadow-lg transition">
-    Conectar
-  </button>
+<h1 class="text-3xl font-bold neon">FOMO SOCIAL</h1>
+<button id="connectBtn" class="bg-pink-500 hover:bg-pink-600 text-black font-bold py-2 px-4 rounded-lg shadow-lg transition">
+Conectar
+</button>
 </header>
 
-<!-- Modal Wallet apenas MetaMask -->
 <div id="walletModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-end justify-center z-50">
-  <div class="bg-[#111] w-full p-6 rounded-t-3xl border-t border-pink-500/30">
-    <h2 class="text-xl font-bold neon mb-4">Escolha sua carteira</h2>
-    <button id="metamaskMobile" class="w-full py-3 mb-2 bg-pink-500 rounded-lg font-bold flex items-center justify-center gap-2">
-      <img src="https://i.postimg.cc/m2S6nTWk/1683020955metama.png" alt="MetaMask" class="w-6 h-6"> MetaMask
-    </button>
-    <button id="cancelModal" class="w-full py-2 mt-4 bg-red-600 rounded-lg font-bold">Cancelar</button>
-  </div>
+<div class="bg-[#111] w-full p-6 rounded-t-3xl border-t border-pink-500/30">
+<h2 class="text-xl font-bold neon mb-4">Escolha sua carteira</h2>
+<button id="metamaskMobile" class="w-full py-3 mb-2 bg-pink-500 rounded-lg font-bold flex items-center justify-center gap-2">
+<img src="https://i.postimg.cc/m2S6nTWk/1683020955metama.png" alt="MetaMask" class="w-6 h-6"> MetaMask
+</button>
+<button id="trustWalletMobile" class="w-full py-3 bg-pink-500 rounded-lg font-bold flex items-center justify-center gap-2">
+<img src="https://i.postimg.cc/Rh7b4B3P/Trust-Wallet-Shield-Logo-Vector-Logo-Vector-svg.png" alt="Trust Wallet" class="w-6 h-6"> Trust Wallet
+</button>
+<button id="cancelModal" class="w-full py-2 mt-4 bg-red-600 rounded-lg font-bold">Cancelar</button>
+</div>
 </div>
 
 <div id="spamModal">
-  <div id="spamModalContent">
-    <button id="spamModalClose">X</button>
-    <div id="spamIframeContainer"></div>
-  </div>
+<div id="spamModalContent">
+<button id="spamModalClose">X</button>
+<div id="spamIframeContainer"></div>
+</div>
 </div>
 
 <main id="dashboard" class="hidden mt-10 w-full max-w-3xl">
-  <div class="bg-[#111] border border-pink-500/30 rounded-2xl p-6 shadow-xl flex flex-col gap-4">
-    <h2 class="text-2xl font-bold mb-4 neon text-center">Dashboard</h2>
-    <p class="mb-4 text-center">Carteira conectada: <span id="walletAddress" class="font-mono text-cyan-400 break-all"></span></p>
-    <p id="tokenWarning" class="text-red-500 font-bold text-center mb-4 hidden">
-      Você não possui token de acesso!
-    </p>
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-      <button class="btn-dashboard flex items-center justify-center gap-2" id="btn1" disabled
-      onclick="window.open('https://chat.whatsapp.com/KtQeB6Ua9jI0wWEBqrPDyL?mode=ac_t','_blank')">
-        <i class="fab fa-whatsapp"></i> VIP
-      </button>
-      <button class="btn-dashboard" id="btn2" disabled>
-        <i class="fa-solid fa-rocket"></i> Trend
-      </button>
-      <button class="btn-dashboard" id="btn3" disabled onclick="alert('Moeda secreta em construção!')">
-        <i class="fa-solid fa-bitcoin-sign"></i> Secret
-      </button>
-      <button class="btn-dashboard" id="btn4" disabled onclick="alert('Relatório em construção!')">
-        <i class="fa-solid fa-paperclip"></i> Report
-      </button>
-      <button class="btn-dashboard" id="btn5" disabled onclick="alert('Airdrop em construção!')">
-        <i class="fa-solid fa-parachute-box"></i> Airdrop
-      </button>
-      <button class="btn-dashboard" id="btn6" disabled onclick="alert('Trade em construção!')">
-        <i class="fa-solid fa-money-bill-trend-up"></i> Trade
-      </button>
-    </div>
-  </div>
+<div class="bg-[#111] border border-pink-500/30 rounded-2xl p-6 shadow-xl flex flex-col gap-4">
+<h2 class="text-2xl font-bold mb-4 neon text-center">Dashboard</h2>
+<p class="mb-4 text-center">Carteira conectada: <span id="walletAddress" class="font-mono text-cyan-400 break-all"></span></p>
+<p id="tokenWarning" class="text-red-500 font-bold text-center mb-4 hidden">
+Você não possui token de acesso!
+</p>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+<button class="btn-dashboard flex items-center justify-center gap-2" id="btn1" disabled
+onclick="window.open('https://chat.whatsapp.com/KtQeB6Ua9jI0wWEBqrPDyL?mode=ac_t','_blank')">
+<i class="fab fa-whatsapp"></i> VIP
+</button>
+
+<button class="btn-dashboard" id="btn2" disabled>
+  <i class="fa-solid fa-rocket"></i> Trend
+</button>
+
+<button class="btn-dashboard" id="btn3" disabled onclick="alert('Moeda secreta em construção!')">  <i class="fa-solid fa-bitcoin-sign"></i> Secret</button>
+
+  
+<button class="btn-dashboard" id="btn4" disabled onclick="alert('Relatório em construção!')"><i class="fa-solid fa-paperclip"></i> Report</button>
+  
+<button class="btn-dashboard" id="btn5" disabled onclick="alert('Airdrop em construção!')"> <i class="fa-solid fa-parachute-box"></i> Airdrop</button>
+
+  <button class="btn-dashboard" id="btn6" disabled onclick="alert('Trade em construção!')"> <i class="fa-solid fa-money-bill-trend-up"></i> Trade</button>
+
+</div>
+</div>
 </main>
 
 <script>
@@ -142,72 +143,70 @@ const TOKEN_ADDRESS = "0x3C6581Ae982CA058CB726B6C1Bc14917FB4F0672";
 const TOKEN_ABI = [{"constant": true,"inputs": [{"name": "_owner","type": "address"}],"name": "balanceOf","outputs": [{"name": "balance","type": "uint256"}],"type": "function"}];
 
 function isMobile() { return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent); }
+function isTrustWalletBrowser() { return (window.ethereum && window.ethereum.isTrust) || /TrustWallet/i.test(navigator.userAgent); }
 function isMetaMaskMobileBrowser() { return (window.ethereum && window.ethereum.isMetaMask) || /MetaMask/i.test(navigator.userAgent); }
 
 async function switchToBSC() {
-  try { 
-    await window.ethereum.request({ method: 'wallet_switchEthereumChain', params:[{chainId: TARGET_CHAIN_ID}] }); 
-    return true; 
-  } catch(err) {
-    if(err.code===4902) {
-      try { 
-        await window.ethereum.request({method:'wallet_addEthereumChain',params:[{chainId: TARGET_CHAIN_ID, chainName: 'BSC Testnet', nativeCurrency:{name:'BNB', symbol:'BNB', decimals:18}, rpcUrls:['https://data-seed-prebsc-1-s1.binance.org:8545/'], blockExplorerUrls:['https://testnet.bscscan.com/']}]});
-        return true; 
-      } catch(addErr){ console.error(addErr); return false; }
-    }
-    console.error(err); return false;
-  }
+try { await window.ethereum.request({ method: 'wallet_switchEthereumChain', params:[{chainId: TARGET_CHAIN_ID}] }); return true; }
+catch(err) {
+if(err.code===4902) {
+try { await window.ethereum.request({method:'wallet_addEthereumChain',params:[{chainId: TARGET_CHAIN_ID, chainName: 'BSC Testnet', nativeCurrency:{name:'BNB', symbol:'BNB', decimals:18}, rpcUrls:['https://data-seed-prebsc-1-s1.binance.org:8545/'], blockExplorerUrls:['https://testnet.bscscan.com/']}]});
+return true; } catch(addErr){ console.error(addErr); return false; }
+}
+console.error(err); return false;
+}
 }
 
 async function checkTokenBalance(address) {
-  try { 
-    const contract = new web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS);
-    const balance = await contract.methods.balanceOf(address).call();
-    return web3.utils.fromWei(balance, 'ether'); 
-  } catch (err) { console.error("Erro ao verificar o saldo do token:", err); return 0; }
+try { const contract = new web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS);
+const balance = await contract.methods.balanceOf(address).call();
+return web3.utils.fromWei(balance, 'ether'); } catch (err) { console.error("Erro ao verificar o saldo do token:", err); return 0; }
 }
 
 async function connectWallet() {
-  if(!window.ethereum) return alert('Instale MetaMask');
-  try { 
-    web3 = new Web3(window.ethereum); 
-    accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }); 
-    const switched = await switchToBSC(); 
-    if(!switched) return; 
-    await postConnect(); 
-  } catch(e){ alert('Conexão rejeitada'); }
+if(!window.ethereum) return alert('Instale MetaMask ou Trust Wallet');
+try { web3 = new Web3(window.ethereum); accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }); const switched = await switchToBSC(); if(!switched) return; await postConnect(); } catch(e){ alert('Conexão rejeitada'); }
+}
+
+function openWalletDeepLink(wallet) {
+if((wallet==='trust' && isTrustWalletBrowser()) || (wallet==='metamask' && isMetaMaskMobileBrowser())) { connectWallet(); return; }
+const redirectUrl = encodeURIComponent(window.location.href);
+let url = '';
+if(wallet==='metamask') url = `https://metamask.app.link/dapp/${window.location.host}?redirect=${redirectUrl}`;
+if(wallet==='trust') url = `https://link.trustwallet.com/open_url?coin_id=60&url=${redirectUrl}`;
+window.location.href = url;
 }
 
 async function postConnect() {
-  const wallet = accounts?.[0]; 
-  if (!wallet) return;
-  document.getElementById('walletAddress').innerText = wallet;
-  document.getElementById('dashboard').classList.remove('hidden');
-  document.getElementById('connectBtn').innerText='Conectado';
-  document.getElementById('connectBtn').classList.add('btn-neon');
-  document.getElementById('connectBtn').disabled=true;
-  document.getElementById('walletModal').style.display='none';
-  const balance = await checkTokenBalance(wallet);
-  if(balance > 0) {
-    document.querySelectorAll('.btn-dashboard').forEach(b => b.disabled = false);
-    document.getElementById('tokenWarning').style.display = 'none';
-  } else {
-    document.querySelectorAll('.btn-dashboard').forEach(b => b.disabled = true);
-    document.getElementById('tokenWarning').style.display = 'block';
-  }
+const wallet = accounts?.[0]; if (!wallet) return;
+document.getElementById('walletAddress').innerText = wallet;
+document.getElementById('dashboard').classList.remove('hidden');
+document.getElementById('connectBtn').innerText='Conectado';
+document.getElementById('connectBtn').classList.add('btn-neon');
+document.getElementById('connectBtn').disabled=true;
+document.getElementById('walletModal').style.display='none';
+const balance = await checkTokenBalance(wallet);
+if(balance > 0) {
+document.querySelectorAll('.btn-dashboard').forEach(b => b.disabled = false);
+document.getElementById('tokenWarning').style.display = 'none';
+} else {
+document.querySelectorAll('.btn-dashboard').forEach(b => b.disabled = true);
+document.getElementById('tokenWarning').style.display = 'block';
+}
 }
 
 window.addEventListener('load', async ()=>{
-  if(isMobile() && isMetaMaskMobileBrowser()) {
-    try{ await connectWallet(); } catch(e){ console.log(e); }
-  }
+if(isMobile() && (isTrustWalletBrowser()||isMetaMaskMobileBrowser())) {
+try{ await connectWallet(); } catch(e){ console.log(e); }
+}
 });
 
 document.getElementById('connectBtn').addEventListener('click', ()=>{
-  if(isMobile()) document.getElementById('walletModal').style.display='flex';
-  else connectWallet();
+if(isMobile()) document.getElementById('walletModal').style.display='flex';
+else connectWallet();
 });
-document.getElementById('metamaskMobile').addEventListener('click', ()=>connectWallet());
+document.getElementById('metamaskMobile').addEventListener('click', ()=>openWalletDeepLink('metamask'));
+document.getElementById('trustWalletMobile').addEventListener('click', ()=>openWalletDeepLink('trust'));
 document.getElementById('cancelModal').addEventListener('click', ()=>document.getElementById('walletModal').style.display='none');
 
 /* Botão Ação 2 abre modal e carrega iframe dinamicamente */
@@ -217,23 +216,25 @@ const spamIframeContainer = document.getElementById('spamIframeContainer');
 const spamModalClose = document.getElementById('spamModalClose');
 
 btn2.addEventListener('click', ()=>{
-  spamIframeContainer.innerHTML = '';
-  const iframe = document.createElement('iframe');
-  iframe.src = 'trend.html';
-  iframe.style.width = '100%';
-  iframe.style.height = '100%';
-  iframe.style.border = 'none';
-  spamIframeContainer.appendChild(iframe);
-  spamModal.style.display = 'flex';
+spamIframeContainer.innerHTML = '';
+const iframe = document.createElement('iframe');
+iframe.src = 'trend.html';
+iframe.style.width = '100%';
+iframe.style.height = '100%';
+iframe.style.border = 'none';
+spamIframeContainer.appendChild(iframe);
+spamModal.style.display = 'flex';
 });
 
 spamModalClose.addEventListener('click', ()=>{
-  spamIframeContainer.innerHTML = '';
-  spamModal.style.display = 'none';
+spamIframeContainer.innerHTML = '';
+spamModal.style.display = 'none';
 });
 </script>
 
-<footer class="w-full mt-6 text-center text-gray-400 text-xs"></footer>
+<footer class="w-full mt-6 text-center text-gray-400 text-xs">
+
+</footer>
 
 </body>
 </html>
