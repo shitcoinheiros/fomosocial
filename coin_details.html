@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FOMO SOCIAL </title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/QMkWc9DS/fomo-social-logo.png">
+  <style>
+    body {
+      background-color: #0d0f1a;
+      color: #00e5ff;
+      font-family: 'Orbitron', sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #0d0f1a;
+      border: 1px solid #ff00a0;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #ff00a0;
+    }
+
+    .botao-voltar {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #00e5ff;
+      font-weight: bold;
+      text-decoration: none;
+      margin-bottom: 20px;
+      transition: all 0.2s;
+    }
+    .botao-voltar:hover {
+      color: #ff00a0;
+      text-shadow: 0 0 8px #ff00a0, 0 0 15px #ff00a0;
+    }
+
+    .icone-compartilhar {
+      color: #ff00a0;
+      font-size: 1.5rem;
+      cursor: pointer;
+      float: right;
+      transition: all 0.2s;
+    }
+    .icone-compartilhar:hover {
+      color: #00e5ff;
+      text-shadow: 0 0 8px #00e5ff, 0 0 15px #00e5ff;
+    }
+
+    h1, h2, h4 {
+      color: #ff00a0;
+      text-shadow: 0 0 8px #ff00a0, 0 0 15px #ff00a0;
+      margin-bottom: 10px;
+    }
+
+    #detalhes-coin img.logocoin {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 10px;
+      border: 1px solid #00e5ff;
+      border-radius: 50%;
+      padding: 4px;
+      background-color: #111;
+      box-shadow: 0 0 8px #00e5ff, 0 0 15px #00e5ff;
+    }
+
+    #detalhes-coin p {
+      margin: 5px 0;
+      color: #00e5ff;
+      font-size: 0.95rem;
+    }
+
+    #lista-exchanges ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    #lista-exchanges li {
+      display: flex;
+      justify-content: space-between;
+      background-color: #151829;
+      border: 1px solid #ff00a0;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      box-shadow: 0 0 6px #ff00a0;
+    }
+
+    .nome-exchange {
+      font-weight: bold;
+      color: #ff00a0;
+    }
+
+    .preco-ultimo {
+      font-weight: bold;
+      color: #00e5ff;
+    }
+
+    #midias a img {
+      vertical-align: middle;
+      margin-right: 8px;
+      filter: drop-shadow(0 0 3px #ff00a0);
+      width: 32px;
+      height: 32px;
+    }
+
+    /* Animação piscante */
+    .piscante {
+      animation: piscar 2s infinite;
+      color: #ff00a0;
+      font-weight: bold;
+    }
+
+    @keyframes piscar {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+
+    /* === RESPONSIVO === */
+    @media screen and (max-width: 768px) {
+      body { padding: 10px; }
+      .container { padding: 15px; border-width: 1px; }
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.25rem; }
+      h4 { font-size: 1rem; }
+      #detalhes-coin img.logocoin { width: 50px; height: 50px; }
+      #lista-exchanges li { flex-direction: column; align-items: flex-start; }
+      #lista-exchanges li span.preco-ultimo { margin-top: 4px; }
+      #midias a img { width: 28px; height: 28px; }
+      .botao-voltar, .icone-compartilhar { font-size: 0.9rem; }
+    }
+
+    @media screen and (max-width: 480px) {
+      h1 { font-size: 1.3rem; }
+      h2 { font-size: 1.1rem; }
+      h4 { font-size: 0.9rem; }
+      #detalhes-coin p { font-size: 0.85rem; }
+      #detalhes-coin img.logocoin { width: 40px; height: 40px; }
+      #midias a img { width: 24px; height: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="javascript:history.back()" class="botao-voltar">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M15 6l-6 6 6 6" fill="none" stroke="#00e5ff" stroke-width="2"/>
+      </svg>
+      Voltar
+    </a>
+    <i class="fas fa-share-alt icone-compartilhar" onclick="compartilharPagina()" aria-label="Compartilhar"></i>
+
+    <h1>Detalhes da Moeda</h1>
+    <div id="detalhes-coin"></div>
+
+    <h4>Mídias Sociais</h4>
+    <div id="midias"></div>
+
+    <h2>Corretoras e Último Preço</h2>
+    <div id="lista-exchanges"></div>
+  </div>
+
+  <script>
+    function obterParametroUrl(nome) {
+      nome = nome.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
+      const regex = new RegExp("[\\?&]" + nome + "=([^&#]*)");
+      const resultados = regex.exec(location.search);
+      return resultados === null ? "" : decodeURIComponent(resultados[1].replace(/\+/g, " "));
+    }
+
+    function formatarPreco(preco) {
+      const precoArredondado = parseFloat(preco).toFixed(18);
+      return `$${precoArredondado}`;
+    }
+
+    function eEnderecoContrato(base) {
+      const padraoEnderecoContrato = /^0x[a-fA-F0-9]{40}$/;
+      return padraoEnderecoContrato.test(base);
+    }
+
+    function formatarNumeroGrande(numero) {
+      const sufixos = ["","k","M","B","T"];
+      let indiceSufixo = 0;
+      let numeroFormatado = numero;
+      while(numeroFormatado >= 1000 && indiceSufixo < sufixos.length-1){
+        numeroFormatado /= 1000;
+        indiceSufixo++;
+      }
+      return `${numeroFormatado.toFixed(2)}${sufixos[indiceSufixo]}`;
+    }
+
+    function formatarMoeda(valor) {
+      return valor.toLocaleString("pt-BR", {style:"currency", currency:"USD"});
+    }
+
+    function formatarMudancaPreco(mudanca) {
+      if(isNaN(mudanca)) return "-";
+      const mudancaFormatada = mudanca.toFixed(2);
+      return mudanca > 0 ? `+${mudancaFormatada}%` : `${mudancaFormatada}%`;
+    }
+
+    async function buscarDetalhesCoin(coinId){
+      try {
+        const resposta = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`);
+        const dados = await resposta.json();
+        const detalhesDiv = document.getElementById("detalhes-coin");
+        detalhesDiv.innerHTML = "";
+
+        const nome = document.createElement("h2");
+        nome.textContent = `${dados.name} (${dados.symbol})`;
+
+        const imagem = document.createElement("img");
+        imagem.src = dados.image.large;
+        imagem.classList.add("logocoin");
+
+        const marketCap = document.createElement("p");
+        marketCap.textContent = `Capitalização de Mercado: ${formatarMoeda(dados.market_data.market_cap.usd)}`;
+
+        const volume24h = document.createElement("p");
+        volume24h.textContent = `Volume 24h: ${formatarMoeda(dados.market_data.total_volume.usd)}`;
+
+        const fornecimentoMax = document.createElement("p");
+        fornecimentoMax.textContent = `Fornecimento Máximo: ${dados.market_data.max_supply ? formatarNumeroGrande(dados.market_data.max_supply) : "Infinito"}`;
+
+        const fornecimentoCirculante = document.createElement("p");
+        fornecimentoCirculante.textContent = `Fornecimento Circulante: ${formatarNumeroGrande(dados.market_data.circulating_supply)}`;
+
+        const blockchain = document.createElement("p");
+        blockchain.textContent = `Blockchain: ${dados.asset_platform_id !== null ? dados.asset_platform_id : "Própria"}`;
+
+        const sentimentoTitulo = document.createElement("h4");
+        sentimentoTitulo.textContent = "Sentimento de Mercado:";
+
+        const sentimentoBom = document.createElement("p");
+        sentimentoBom.textContent = `Bom: ${dados.sentiment_votes_up_percentage.toFixed(2)}% 🚀`;
+        sentimentoBom.style.color = "#39ff14";
+
+        const sentimentoRuim = document.createElement("p");
+        sentimentoRuim.textContent = `Ruim: ${dados.sentiment_votes_down_percentage.toFixed(2)}% 💩`;
+        sentimentoRuim.style.color = "#ff3131";
+
+        const variacaoTitulo = document.createElement("h4");
+        variacaoTitulo.textContent = "Variação Histórica:";
+
+        const mudanca24h = document.createElement("p");
+        mudanca24h.textContent = `24 Horas: ${formatarMudancaPreco(dados.market_data.price_change_percentage_24h_in_currency.usd)}`;
+        mudanca24h.style.color = dados.market_data.price_change_percentage_24h_in_currency.usd > 0 ? "#39ff14" : "#ff3131";
+
+        const mudanca7d = document.createElement("p");
+        mudanca7d.textContent = `7 Dias: ${formatarMudancaPreco(dados.market_data.price_change_percentage_7d_in_currency.usd)}`;
+        mudanca7d.style.color = dados.market_data.price_change_percentage_7d_in_currency.usd > 0 ? "#39ff14" : "#ff3131";
+
+        const mudanca30d = document.createElement("p");
+        mudanca30d.textContent = `30 Dias: ${formatarMudancaPreco(dados.market_data.price_change_percentage_30d_in_currency.usd)}`;
+        mudanca30d.style.color = dados.market_data.price_change_percentage_30d_in_currency.usd > 0 ? "#39ff14" : "#ff3131";
+
+        const mudanca1y = document.createElement("p");
+        mudanca1y.textContent = `12 Meses: ${formatarMudancaPreco(dados.market_data.price_change_percentage_1y_in_currency.usd)}`;
+        mudanca1y.style.color = dados.market_data.price_change_percentage_1y_in_currency.usd > 0 ? "#39ff14" : "#ff3131";
+
+        detalhesDiv.append(imagem, nome, blockchain, marketCap, volume24h, fornecimentoMax, fornecimentoCirculante, sentimentoTitulo, sentimentoBom, sentimentoRuim, variacaoTitulo, mudanca24h, mudanca7d, mudanca30d, mudanca1y);
+
+        // Mídias sociais
+        const midiasDiv = document.getElementById("midias");
+        midiasDiv.innerHTML = "";
+        if(dados.links.homepage.length > 0){
+          const linkSite = document.createElement("a");
+          linkSite.href = dados.links.homepage[0];
+          linkSite.target="_blank";
+          const iconeSite = document.createElement("img");
+          iconeSite.src="https://img.icons8.com/material-outlined/24/ffffff/globe--v1.png";
+          iconeSite.alt="Site";
+          linkSite.appendChild(iconeSite);
+          midiasDiv.appendChild(linkSite);
+        }
+        if(dados.links.twitter_screen_name){
+          const linkTwitter = document.createElement("a");
+          linkTwitter.href=`https://twitter.com/${dados.links.twitter_screen_name}`;
+          linkTwitter.target="_blank";
+          const iconeTwitter = document.createElement("img");
+          iconeTwitter.src="https://img.icons8.com/ios-filled/50/ffffff/twitter.png";
+          iconeTwitter.alt="Twitter";
+          linkTwitter.appendChild(iconeTwitter);
+          midiasDiv.appendChild(linkTwitter);
+        }
+
+        // Exchanges
+        const listaExchanges = document.getElementById("lista-exchanges");
+        listaExchanges.innerHTML = "";
+        const tickers = dados.tickers;
+        const exchangesUnicas = new Map();
+        tickers.forEach(ticker => {
+          const nomeExchange = ticker.market.name;
+          const base = ticker.base;
+          const ultimoPreco = ticker.converted_last.usd;
+          let tipoExchange = "DEX";
+          if(eEnderecoContrato(base)){
+            tipoExchange = "DEX";
+          } else if(base === dados.symbol.toUpperCase()){
+            tipoExchange = "CEX";
+          }
+          exchangesUnicas.set(nomeExchange, {tipo: tipoExchange, preco: ultimoPreco});
+        });
+
+        const ul = document.createElement("ul");
+        exchangesUnicas.forEach((valor, chave) => {
+          const li = document.createElement("li");
+          const spanNome = document.createElement("span");
+          spanNome.className = "nome-exchange";
+          spanNome.textContent = `${chave} (${valor.tipo})`;
+          const spanPreco = document.createElement("span");
+          spanPreco.className = "preco-ultimo";
+          spanPreco.textContent = formatarPreco(valor.preco);
+          li.append(spanNome, spanPreco);
+          ul.appendChild(li);
+        });
+        listaExchanges.appendChild(ul);
+
+      } catch (erro){
+        console.error("Erro ao buscar dados:", erro);
+      }
+    }
+
+    const coinId = obterParametroUrl("id");
+    buscarDetalhesCoin(coinId);
+
+    function compartilharPagina() {
+      if (navigator.share) {
+        navigator.share({
+          title: document.title,
+          url: window.location.href
+        });
+      } else {
+        alert("Compartilhamento não suportado neste navegador.");
+      }
+    }
+  </script>
+</body>
+</html>
