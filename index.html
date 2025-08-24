@@ -184,12 +184,6 @@ spamModalClose.addEventListener('click', ()=>{
 
 <footer class="w-full mt-6 text-center text-gray-400 text-xs"></footer>
 
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js")
-    .then(() => console.log("Service Worker registrado!"))
-    .catch((err) => console.error("Erro ao registrar o Service Worker:", err));
-}
-</script>
+
 </body>
 </html>
