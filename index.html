@@ -7,7 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
 <style>
 body { background: #0d0f0f; color: #ADD8E6; font-family: 'Orbitron', sans-serif; }
 .neon { text-shadow: 0 0 5px #FF69B4, 0 0 10px #FF69B4, 0 0 20px #FF69B4; }
@@ -92,6 +92,9 @@ Conectar
 <button id="metamaskMobile" class="w-full py-3 mb-2 bg-pink-500 rounded-lg font-bold flex items-center justify-center gap-2">
 <img src="https://i.postimg.cc/m2S6nTWk/1683020955metama.png" alt="MetaMask" class="w-6 h-6"> MetaMask
 </button>
+<!--<button id="trustWalletMobile" class="w-full py-3 bg-pink-500 rounded-lg font-bold flex items-center justify-center gap-2">
+<img src="https://i.postimg.cc/Rh7b4B3P/Trust-Wallet-Shield-Logo-Vector-Logo-Vector-svg.png" alt="Trust Wallet" class="w-6 h-6"> Trust Wallet
+</button>-->
 <button id="cancelModal" class="w-full py-2 mt-4 bg-red-600 rounded-lg font-bold">Cancelar</button>
 </div>
 </div>
@@ -117,17 +120,17 @@ onclick="window.open('https://chat.whatsapp.com/KtQeB6Ua9jI0wWEBqrPDyL?mode=ac_t
 </button>
 
 <button class="btn-dashboard" id="btn2" disabled>
-  <i class="fa-solid fa-rocket"></i> Trend
+  <i class="fa-solid fa-rocket"></i> Trend
 </button>
 
-<button class="btn-dashboard" id="btn3" disabled onclick="alert('Moeda secreta em construção!')">  <i class="fa-solid fa-bitcoin-sign"></i> Secret</button>
+<button class="btn-dashboard" id="btn3" disabled onclick="alert('Moeda secreta em construção!')">  <i class="fa-solid fa-bitcoin-sign"></i> Secret</button>
 
-  
+  
 <button class="btn-dashboard" id="btn4" disabled onclick="alert('Relatório em construção!')"><i class="fa-solid fa-paperclip"></i> Report</button>
-  
+  
 <button class="btn-dashboard" id="btn5" disabled onclick="alert('Airdrop em construção!')"> <i class="fa-solid fa-parachute-box"></i> Airdrop</button>
 
-  <button class="btn-dashboard" id="btn6" disabled onclick="alert('Trade em construção!')"> <i class="fa-solid fa-money-bill-trend-up"></i> Trade</button>
+  <button class="btn-dashboard" id="btn6" disabled onclick="alert('Trade em construção!')"> <i class="fa-solid fa-money-bill-trend-up"></i> Trade</button>
 
 </div>
 </div>
@@ -166,10 +169,11 @@ try { web3 = new Web3(window.ethereum); accounts = await window.ethereum.request
 }
 
 function openWalletDeepLink(wallet) {
-if(isMetaMaskMobileBrowser()) { connectWallet(); return; }
+if((wallet==='trust' && isTrustWalletBrowser()) || (wallet==='metamask' && isMetaMaskMobileBrowser())) { connectWallet(); return; }
 const redirectUrl = encodeURIComponent(window.location.href);
 let url = '';
 if(wallet==='metamask') url = `https://metamask.app.link/dapp/${window.location.host}?redirect=${redirectUrl}`;
+if(wallet==='trust') url = `https://link.trustwallet.com/open_url?coin_id=60&url=${redirectUrl}`;
 window.location.href = url;
 }
 
@@ -192,7 +196,7 @@ document.getElementById('tokenWarning').style.display = 'block';
 }
 
 window.addEventListener('load', async ()=>{
-if(isMobile() && isMetaMaskMobileBrowser()) {
+if(isMobile() && (isTrustWalletBrowser()||isMetaMaskMobileBrowser())) {
 try{ await connectWallet(); } catch(e){ console.log(e); }
 }
 });
@@ -202,6 +206,7 @@ if(isMobile()) document.getElementById('walletModal').style.display='flex';
 else connectWallet();
 });
 document.getElementById('metamaskMobile').addEventListener('click', ()=>openWalletDeepLink('metamask'));
+document.getElementById('trustWalletMobile').addEventListener('click', ()=>openWalletDeepLink('trust'));
 document.getElementById('cancelModal').addEventListener('click', ()=>document.getElementById('walletModal').style.display='none');
 
 /* Botão Ação 2 abre modal e carrega iframe dinamicamente */
