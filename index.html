@@ -4,10 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FOMO SOCIAL</title>
+
+<!-- Favicon -->
 <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/shitcoinheiros/fomosocial/refs/heads/main/fomo%20social%20logo.png">
+
+<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#FF69B4">
 
+<!-- 🔥 Anti-cache -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+<!-- Libs -->
 <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -64,6 +74,7 @@ body { background: #0d0f0f; color: #ADD8E6; font-family: 'Orbitron', sans-serif;
   </button>
 </header>
 
+<!-- Modal de spam -->
 <div id="spamModal">
   <div id="spamModalContent">
     <button id="spamModalClose">X</button>
@@ -71,6 +82,7 @@ body { background: #0d0f0f; color: #ADD8E6; font-family: 'Orbitron', sans-serif;
   </div>
 </div>
 
+<!-- Dashboard -->
 <main id="dashboard" class="hidden mt-10 w-full max-w-3xl">
   <div class="bg-[#111] border border-pink-500/30 rounded-2xl p-6 shadow-xl flex flex-col gap-4">
     <h2 class="text-2xl font-bold mb-4 neon text-center">Dashboard</h2>
@@ -184,6 +196,12 @@ spamModalClose.addEventListener('click', ()=>{
 
 <footer class="w-full mt-6 text-center text-gray-400 text-xs"></footer>
 
-
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then(() => console.log("Service Worker registrado!"))
+    .catch((err) => console.error("Erro ao registrar o Service Worker:", err));
+}
+</script>
 </body>
 </html>
