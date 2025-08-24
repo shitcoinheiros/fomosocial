@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FOMO SOCIAL</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/QMkWc9DS/fomo-social-logo.png">
+  <style>
+    body {
+      background: #0d0f1a; /* fundo escuro inspirado na logo */
+      color: #00e5ff; /* azul neon do "SOCIAL" */
+      font-family: 'Orbitron', sans-serif;
+      padding: 20px;
+    }
+    .neon {
+      text-shadow: 0 0 5px #ff00a0, 0 0 10px #ff00a0, 0 0 20px #ff00a0; /* rosa neon */
+      color: #ff00a0;
+    }
+    .piscante {
+      animation: blink 10s infinite;
+      color: #00e5ff; /* azul neon */
+      font-weight: bold;
+    }
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+    #coins-list li {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      background: #151829; /* fundo mais escuro para destacar */
+      border: 1px solid #ff00a0; /* borda rosa neon */
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #coins-list li img {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+    .coin-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .coin-name-symbol {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .coin-price {
+      font-weight: bold;
+      margin-top: 5px;
+      color: #00e5ff; /* azul neon */
+    }
+    .coin-sparkline {
+      width: 100% !important;
+      max-width: 150px;
+      height: 50px !important;
+      margin-top: 5px;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 0.75rem;
+      color: #ff00a0; /* rosa neon */
+      text-align: center;
+    }
+
+    /* Ajustes responsivos */
+    @media (max-width: 600px) {
+      .coin-price {
+        width: 100%;
+        text-align: left;
+      }
+      .coin-sparkline {
+        max-width: 100%;
+        height: 40px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <center>
+
+
+    <center>
+      <h1 class="neon text-3xl mb-2" style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+        FOMO SOCIAL
+        <img src="https://i.pinimg.com/originals/af/8a/27/af8a27bf984e189f6a6bd7a6922075c1.gif" 
+             alt="fire" 
+             style="width:32px; height:32px;">
+      </h1>
+      <div class="piscante mb-6">Ao vivo</div>
+    </center>
+
+
+
+
+
+
+  </center>
+
+  <ul id="coins-list"></ul>
+
+  <script>
+    const coinsList = document.getElementById("coins-list");
+
+    function formatPriceUSD(price) {
+      return price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    }
+
+    async function fetchTrendingCoins() {
+      try {
+        const res = await fetch("https://api.coingecko.com/api/v3/search/trending");
+        const data = await res.json();
+        coinsList.innerHTML = "";
+
+        const coinIds = data.coins.map(c => c.item.id).join(',');
+        const marketRes = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinIds}&sparkline=true`);
+        const marketData = await marketRes.json();
+
+        for (let coin of data.coins) {
+          const coinId = coin.item.id;
+          const marketCoin = marketData.find(c => c.id === coinId);
+
+          const listItem = document.createElement("li");
+          listItem.addEventListener("click", () => {
+            window.location.href = `coin_details.html?id=${coinId}`;
+          });
+
+          const coinInfo = document.createElement("div");
+          coinInfo.className = "coin-info";
+
+          const img = document.createElement("img");
+          img.src = coin.item.thumb;
+
+          const nameSymbol = document.createElement("div");
+          nameSymbol.className = "coin-name-symbol";
+
+          const coinName = document.createElement("span");
+          coinName.textContent = coin.item.name;
+
+          const coinSymbol = document.createElement("span");
+          coinSymbol.textContent = coin.item.symbol.toUpperCase();
+          coinSymbol.style.fontSize = "0.75rem";
+          coinSymbol.style.color = "#ff00a0"; /* rosa neon */
+
+          nameSymbol.appendChild(coinName);
+          nameSymbol.appendChild(coinSymbol);
+          coinInfo.appendChild(img);
+          coinInfo.appendChild(nameSymbol);
+
+          const coinPrice = document.createElement("span");
+          coinPrice.className = "coin-price";
+          coinPrice.textContent = `Price: ${formatPriceUSD(marketCoin.current_price)}`;
+
+          const sparklineCanvas = document.createElement("canvas");
+          sparklineCanvas.className = "coin-sparkline";
+
+          const priceArray = marketCoin.sparkline_in_7d.price;
+          const isUp = priceArray[priceArray.length - 1] >= priceArray[0];
+          const sparkColor = isUp ? "#39ff14" : "#ff3131"; /* VERDE sobe, VERMELHO cai */
+
+          new Chart(sparklineCanvas.getContext("2d"), {
+            type: "line",
+            data: {
+              labels: priceArray.map((_, i) => i),
+              datasets: [{
+                data: priceArray,
+                borderColor: sparkColor,
+                backgroundColor: "transparent",
+                fill: false,
+                tension: 0.3,
+                pointRadius: 0
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: { legend: { display: false } },
+              scales: { x: { display: false }, y: { display: false } }
+            }
+          });
+
+          listItem.appendChild(coinInfo);
+          listItem.appendChild(coinPrice);
+          listItem.appendChild(sparklineCanvas);
+
+          coinsList.appendChild(listItem);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar moedas:", err);
+      }
+    }
+
+    fetchTrendingCoins();
+  </script>
+
+</body>
+</html>
