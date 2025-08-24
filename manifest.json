@@ -1,0 +1,22 @@
+{
+  "name": "FOMO Social",
+  "short_name": "FOMO",
+  "description": "DApp social",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0d0f0f",
+  "theme_color": "#FF69B4",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/shitcoinheiros/fomosocial/refs/heads/main/fomo%20social%20logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/shitcoinheiros/fomosocial/refs/heads/main/fomo%20social%20logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
