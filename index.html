@@ -137,7 +137,8 @@
             <button class="btn-dashboard" id="btn3" onclick="alert('Moeda secreta em construção!')">
                 <i class="fa-solid fa-bitcoin-sign"></i> Secret
             </button>
-            <button class="btn-dashboard" id="btn4" onclick="alert('Relatório em construção!')">
+            
+            <button class="btn-dashboard" id="btn4">
                 <i class="fa-solid fa-paperclip"></i> Report
             </button>
             <button class="btn-dashboard" id="btn5">
@@ -251,6 +252,7 @@
 
     // Lógica dos modais
     const btn2 = document.getElementById('btn2');
+    const btn4 = document.getElementById('btn4');
     const btn5 = document.getElementById('btn5');
     const spamModal = document.getElementById('spamModal');
     const spamIframeContainer = document.getElementById('spamIframeContainer');
@@ -268,6 +270,7 @@
     }
 
     btn2.addEventListener('click', () => openIframeModal('trend.html'));
+    btn4.addEventListener('click', () => openIframeModal('report.html'));
     btn5.addEventListener('click', () => openIframeModal('airdrop.html'));
     spamModalClose.addEventListener('click', () => {
         spamIframeContainer.innerHTML = '';
