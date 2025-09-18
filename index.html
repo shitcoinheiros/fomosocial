@@ -134,8 +134,8 @@
             <button class="btn-dashboard" id="btn2">
                 <i class="fa-solid fa-rocket"></i> Trend
             </button>
-            <button class="btn-dashboard" id="btn3" onclick="alert('Moeda secreta em construção!')">
-                <i class="fa-solid fa-bitcoin-sign"></i> Secret
+  <button class="btn-dashboard" id="btn3">
+                <i class="fa-solid fa-rocket"></i> Secret
             </button>
             
             <button class="btn-dashboard" id="btn4">
@@ -272,6 +272,7 @@
     btn2.addEventListener('click', () => openIframeModal('trend.html'));
     btn4.addEventListener('click', () => openIframeModal('report.html'));
     btn5.addEventListener('click', () => openIframeModal('airdrop.html'));
+      btn3.addEventListener('click', () => openIframeModal('secret.html'));
     spamModalClose.addEventListener('click', () => {
         spamIframeContainer.innerHTML = '';
         spamModal.style.display = 'none';
